@@ -9,7 +9,7 @@ import ru.andreev.web.pages.GooglePage;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.open;
-import static org.testng.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static ru.andreev.web.pages.GooglePage.GOOGLE_PAGE_URL;
 
 @Owner("andreevmo")
@@ -18,12 +18,12 @@ public class GoogleTest extends BaseTest {
 
     @Test(description = "Тест на проверку поиска Google")
     public void testSearch() {
-        String valueForCheck = "selenide.org";
+        String valueForCheck = "https://ru.selenide.org";
 
         List<WebElement> elementList = open(GOOGLE_PAGE_URL, GooglePage.class)
                 .searchByValue("Selenide")
                 .getResultsByValue(valueForCheck);
 
-        assertFalse(elementList.isEmpty(), "В результатах поиска отсутвуют эементы содержащие " + valueForCheck);
+        assertThat(elementList).hasSizeGreaterThan(0);
     }
 }
