@@ -5,14 +5,16 @@ import com.codeborne.selenide.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.System.getenv;
+
 public abstract class SelenideConfig {
 
     public static void setup() {
-        if (System.getenv("IS_SELENOID") != null) {
+        if (getenv("IS_SELENOID") != null) {
             Configuration.remote = "http://localhost:4444/wd/hub";
             Map<String, Boolean> options = new HashMap<>();
             options.put("enableVNC", true);
-            options.put("enableVideo", false);
+            options.put("enableVideo", Boolean.valueOf(getenv("IS_VIDEO")));
             options.put("enableLog", true);
             Configuration.browserCapabilities.setCapability("selenoid:options", options);
         }
